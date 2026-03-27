@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bids | Krishi Sarathi</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+}
+
+/* Card Style */
+.card {
+    background: white;
+    padding: 15px;
+    margin: 15px auto;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Price */
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    color: green;
+}
+
+/* Empty */
+.empty {
+    text-align: center;
+    color: gray;
+    margin-top: 40px;
+}
+</style>
+
+</head>
+<body>
+
+<h2>💰 Bids Received</h2>
+
+{% if bids %}
+
+    {% for b in bids %}
+    <div class="card">
+        <p><strong>Trader:</strong> {{ b.name }}</p>
+        <p class="price">₹ {{ b.price }}</p>
+    </div>
+    {% endfor %}
+
+{% else %}
+
+    <div class="empty">
+        <h3>No bids yet 😔</h3>
+        <p>Wait for traders to place bids.</p>
+    </div>
+
+{% endif %}
+
+</body>
+</html>

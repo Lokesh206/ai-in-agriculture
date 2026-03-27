@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishi Sarathi | Smart Logistics Portal</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #064e3b; /* Deep Emerald */
+            --accent: #bef264;  /* Lime Green */
+            --text-main: #f8fafc;
+            --glass: rgba(15, 23, 42, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            /* HIGH-RES AERIAL FARMING BACKGROUND */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAVIGATION BAR */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 6%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-circle {
+            width: 42px;
+            height: 42px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 22px;
+            box-shadow: 0 0 20px rgba(190, 242, 100, 0.3);
+        }
+
+        .logo-text h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* LANGUAGE SWITCHER */
+        .lang-wrapper {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .lang-wrapper i { margin-right: 8px; color: var(--accent); }
+
+        select {
+            background: transparent;
+            color: white;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        select option { background: #1e293b; color: white; }
+
+        .btn-login {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(190, 242, 100, 0.4);
+            background: #fff;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            flex: 1;
+            padding-top: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-inline: 6%;
+        }
+
+        .hero-card {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 32px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            overflow: hidden;
+            max-width: 1100px;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);
+            animation: slideUp 1s ease forwards;
+        }
+
+        .hero-content {
+            padding: 50px;
+            text-align: left;
+        }
+
+        .govt-tag {
+            display: inline-block;
+            background: rgba(190, 242, 100, 0.1);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(190, 242, 100, 0.3);
+        }
+
+        .hero-content h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        #dynamic-desc {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #cbd5e1;
+            min-height: 120px;
+            transition: opacity 0.5s ease;
+        }
+
+        .hero-visual {
+            background: url('https://images.unsplash.com/photo-1586771107445-d3ca888129ff?auto=format&fit=crop&q=80&w=800');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero-visual::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, var(--glass), transparent);
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 1.5rem;
+            text-align: center;
+            background: rgba(0,0,0,0.6);
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 968px) {
+            .hero-card { grid-template-columns: 1fr; }
+            .hero-visual { display: none; }
+            .hero-content { padding: 40px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo-box">
+        <div class="logo-circle"><i class="fa-solid fa-leaf"></i></div>
+        <div class="logo-text">
+            <h1 id="nav-brand">Krishi Sarathi</h1>
+        </div>
+    </div>
+
+    <div class="nav-right">
+        <div class="lang-wrapper">
+            <i class="fa-solid fa-globe"></i>
+            <select id="langSelector" onchange="handleLanguageChange()">
+                <option value="en">English</option>
+                <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            </select>
+        </div>
+        <button class="btn-login" onclick="navigateToLogin()">
+            <i class="fa-solid fa-circle-user"></i>
+            <span id="login-txt">Login</span>
+        </button>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-card">
+        <div class="hero-content">
+            <span class="govt-tag" id="tag-label">Government of Karnataka Initiative</span>
+            <h2 id="hero-heading">Empowering Farmers with <br><span style="color: var(--accent);">Smart Transport</span></h2>
+            <p id="dynamic-desc"></p>
+        </div>
+        <div class="hero-visual"></div>
+    </div>
+</section>
+
+<footer>
+    <p id="footer-txt">© 2026 Krishi Sarathi | Official Smart Transport System</p>
+</footer>
+
+<script>
+    // TRANSLATION DATABASE
+    const translations = {
+        en: {
+            brand: "Krishi Sarathi",
+            tag: "Government of Karnataka Initiative",
+            heading: "Empowering Farmers with <br><span style='color: #bef264;'>Smart Transport</span>",
+            login: "Login",
+            footer: "© 2026 Krishi Sarathi | Official Smart Transport System",
+            descriptions: [
+                "Krishi Sarathi connects farmers directly with reliable transportation providers to ensure fresh produce reaches the market on time.",
+                "Our AI-driven system optimizes routes to reduce fuel costs and prevents crop wastage through real-time tracking.",
+                "Transforming rural logistics with digital transparency and accountable transport services for every farmer."
+            ]
+        },
+        kn: {
+            brand: "ಕೃಷಿ ಸಾರಥಿ",
+            tag: "ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಉಪಕ್ರಮ",
+            heading: "ರೈತರಿಗಾಗಿ <br><span style='color: #bef264;'>ಸ್ಮಾರ್ಟ್ ಸಾರಿಗೆ ವ್ಯವಸ್ಥೆ</span>",
+            login: "ಲಾಗಿನ್",
+            footer: "© 2026 ಕೃಷಿ ಸಾರಥಿ | ಅಧಿಕೃತ ಸ್ಮಾರ್ಟ್ ಸಾರಿಗೆ ವ್ಯವಸ್ಥೆ",
+            descriptions: [
+                "ಕೃಷಿ ಸಾರಥಿಯು ರೈತರನ್ನು ನೇರವಾಗಿ ಸಾರಿಗೆದಾರರೊಂದಿಗೆ ಸಂಪರ್ಕಿಸುತ್ತದೆ, ಇದರಿಂದ ಬೆಳೆಗಳು ಸಮಯಕ್ಕೆ ಮಾರುಕಟ್ಟೆ ತಲುಪುತ್ತವೆ.",
+                "ನಮ್ಮ ತಂತ್ರಜ್ಞಾನವು ಇಂಧನ ವೆಚ್ಚವನ್ನು ಕಡಿಮೆ ಮಾಡಲು ಮತ್ತು ಬೆಳೆಗಳ ನಷ್ಟವನ್ನು ತಡೆಯಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ.",
+                "ಪ್ರತಿ ರೈತರಿಗೆ ಪಾರದರ್ಶಕ ಮತ್ತು ಜವಾಬ್ದಾರಿಯುತ ಸಾರಿಗೆ ಸೇವೆಗಳನ್ನು ಒದಗಿಸುವ ಮೂಲಕ ಗ್ರಾಮೀಣ ಸಾರಿಗೆಯನ್ನು ಬದಲಾಯಿಸುವುದು ನಮ್ಮ ಗುರಿ."
+            ]
+        }
+    };
+
+    let currentIndex = 0;
+    let selectedLang = localStorage.getItem('selectedLang') || 'en';
+
+    // 1. Initial Page Load
+    function init() {
+        document.getElementById('langSelector').value = selectedLang;
+        updateUI();
+        startTextRotation();
+    }
+
+    // 2. Language Change Logic
+    function handleLanguageChange() {
+        selectedLang = document.getElementById('langSelector').value;
+        localStorage.setItem('selectedLang', selectedLang); // Store choice for all other pages
+        updateUI();
+    }
+
+    // 3. Update UI Elements
+    function updateUI() {
+        const data = translations[selectedLang];
+        document.getElementById('nav-brand').innerText = data.brand;
+        document.getElementById('tag-label').innerText = data.tag;
+        document.getElementById('hero-heading').innerHTML = data.heading;
+        document.getElementById('login-txt').innerText = data.login;
+        document.getElementById('footer-txt').innerText = data.footer;
+        
+        // Immediate update of description
+        document.getElementById('dynamic-desc').innerText = data.descriptions[currentIndex];
+    }
+
+    // 4. Smooth Text Rotation
+    function startTextRotation() {
+        setInterval(() => {
+            const descEl = document.getElementById('dynamic-desc');
+            descEl.style.opacity = 0;
+            
+            setTimeout(() => {
+                const descs = translations[selectedLang].descriptions;
+                currentIndex = (currentIndex + 1) % descs.length;
+                descEl.innerText = descs[currentIndex];
+                descEl.style.opacity = 1;
+            }, 500);
+        }, 6000);
+    }
+
+    // 5. Navigation with Language Persistence
+    function navigateToLogin() {
+        // Double check language is saved before leaving
+        localStorage.setItem('selectedLang', selectedLang);
+        window.location.href = "/login";
+    }
+
+    init();
+</script>
+
+</body>
+</html>

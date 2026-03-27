@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farmer Dashboard | Krishi Sarathi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+    --primary: #064e3b;
+    --accent: #bef264;
+    --glass: rgba(255, 255, 255, 0.9);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                url('https://images.unsplash.com/photo-1500382017468-9049fed747ef');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* NAV BAR */
+.nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    background: rgba(0,0,0,0.5);
+    color: white;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;
+    background: var(--glass);
+    padding: 40px 30px;
+    border-radius: 30px;
+    margin-top: 60px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+input, select {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+}
+
+.result-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background: var(--primary);
+    color: var(--accent);
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ✅ NAVIGATION -->
+<div class="nav">
+    <div>🌾 Welcome, {{ name }}</div>
+    <div>
+        <a href="/my-bookings">My Bookings</a>
+        <a href="/select">Back</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+<div class="header">
+    <h2>🚜 Book Transport</h2>
+</div>
+
+<form action="/book" method="POST" onsubmit="return validateForm()">
+
+    <div class="input-group">
+        <i class="fa-solid fa-seedling"></i>
+        <select name="crop" required>
+            <option value="">Select Crop</option>
+            <option>Wheat</option>
+            <option>Rice</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <i class="fa-solid fa-weight-hanging"></i>
+        <input type="number" name="weight" id="weight" placeholder="Weight (kg)" required>
+    </div>
+
+    <div class="input-group">
+        <i class="fa-solid fa-location-dot"></i>
+        <input type="text" name="pickup" id="pickup" placeholder="Pickup Location" required>
+    </div>
+
+    <div class="input-group">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <input type="text" name="destination" id="destination" placeholder="Destination" required>
+    </div>
+
+    <div class="input-group">
+        <i class="fa-solid fa-truck"></i>
+        <select name="vehicle" required>
+            <option value="">Select Vehicle</option>
+            <option value="Tempo">Tempo</option>
+            <option value="Truck">Truck</option>
+        </select>
+    </div>
+
+    <input type="hidden" name="price" id="priceInput">
+
+    <div class="result-container">
+        <div>Distance: <span id="distanceBox">-</span></div>
+        <div>Price: <span id="priceBox">₹0</span></div>
+    </div>
+
+    <button type="submit">Confirm Booking →</button>
+
+</form>
+
+</div>
+
+<script>
+const pricePerKm = 10;
+
+function fakeDistance(pickup, destination) {
+    return Math.abs(pickup.length - destination.length) * 5 + 10;
+}
+
+function calculate() {
+    let pickup = document.getElementById("pickup").value;
+    let destination = document.getElementById("destination").value;
+    let weight = parseFloat(document.getElementById("weight").value) || 1;
+
+    if (!pickup || !destination) return;
+
+    let distance = fakeDistance(pickup, destination);
+    let price = distance * pricePerKm * weight;
+
+    document.getElementById("distanceBox").innerText = distance + " KM";
+    document.getElementById("priceBox").innerText = "₹ " + price;
+    document.getElementById("priceInput").value = price;
+}
+
+function validateForm() {
+    let price = document.getElementById("priceInput").value;
+    if (!price || price <= 0) {
+        alert("Please enter valid details");
+        return false;
+    }
+    return true;
+}
+
+["pickup","destination","weight"].forEach(id => {
+    document.getElementById(id).addEventListener("input", calculate);
+});
+
+// initial trigger
+calculate();
+</script>
+
+</body>
+</html>

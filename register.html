@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register | Krishi Sarathi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+    --primary: #064e3b;
+    --accent: #bef264;
+    --glass: rgba(15, 23, 42, 0.85);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef');
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.card {
+    background: var(--glass);
+    padding: 40px;
+    border-radius: 30px;
+    width: 100%;
+    max-width: 450px;
+    color: white;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* ROLE */
+.role-box {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.role-opt {
+    flex: 1;
+    margin: 5px;
+    padding: 15px;
+    text-align: center;
+    border-radius: 15px;
+    cursor: pointer;
+    background: #1e293b;
+}
+
+.role-opt.active {
+    background: var(--accent);
+    color: black;
+}
+
+/* INPUT */
+.input-group {
+    margin-bottom: 15px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+}
+
+/* BUTTON */
+.btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--accent);
+    border: none;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Create Account</h2>
+
+<div class="role-box">
+    <div class="role-opt" id="opt-farmer" onclick="selectRole('farmer')">Farmer</div>
+    <div class="role-opt" id="opt-trader" onclick="selectRole('trader')">Trader</div>
+
+    <!-- 🔥 FIXED -->
+    <div class="role-opt" id="opt-transporter" onclick="selectRole('transporter')">
+        Transporter
+    </div>
+</div>
+
+<form action="/register" method="POST">
+<input type="hidden" name="role" id="role-input" required>
+
+<div class="input-group">
+<input type="text" name="name" placeholder="Full Name" required>
+</div>
+
+<div class="input-group">
+<input type="text" name="phone" placeholder="Phone" required>
+</div>
+
+<div class="input-group">
+<input type="password" name="password" placeholder="Password" required>
+</div>
+
+<!-- EXTRA FIELDS -->
+
+<div id="field-farmer" class="extra-fields">
+<input type="text" placeholder="Farm Location">
+</div>
+
+<div id="field-trader" class="extra-fields">
+<input type="text" placeholder="Business Name">
+</div>
+
+<!-- 🔥 FIXED -->
+<div id="field-transporter" class="extra-fields">
+<input type="text" placeholder="License Number">
+</div>
+
+<button class="btn">Register</button>
+</form>
+
+</div>
+
+<script>
+function selectRole(role) {
+
+    document.getElementById('role-input').value = role;
+
+    document.querySelectorAll('.role-opt').forEach(el => el.classList.remove('active'));
+    document.getElementById('opt-' + role).classList.add('active');
+
+    document.querySelectorAll('.extra-fields').forEach(el => el.style.display = "none");
+
+    if(document.getElementById('field-' + role)){
+        document.getElementById('field-' + role).style.display = "block";
+    }
+}
+</script>
+
+</body>
+</html>

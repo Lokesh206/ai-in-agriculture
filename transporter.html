@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Transporter Dashboard | Krishi Sarathi</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --primary: #0f172a;
+    --accent: #bef264;
+}
+
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f8fafc;
+}
+
+/* NAV */
+.nav-bar {
+    background: var(--primary);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+.nav-bar a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+}
+
+.main-content {
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+/* CARD */
+.order-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    transition: 0.3s;
+}
+
+.order-card:hover {
+    transform: scale(1.02);
+}
+
+.route-info {
+    padding-left: 25px;
+}
+
+.point {
+    font-weight: bold;
+}
+
+.price-tag {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.btn-accept {
+    background: black;
+    color: white;
+}
+
+.btn-track {
+    background: var(--accent);
+    color: black;
+}
+
+.accepted {
+    background: #e8f5e9;
+}
+
+.empty {
+    text-align: center;
+    color: gray;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<nav class="nav-bar">
+    <h2>🚚 KRISHI <span style="color:#bef264;">SARATHI</span></h2>
+
+    <div>
+        Welcome, {{ name }}
+        <a href="/select">Back</a>
+        <a href="/logout">Logout</a>
+    </div>
+</nav>
+
+<main class="main-content">
+
+<h2>🚚 Available Shipments</h2>
+
+{% set pending = bookings | selectattr('status','equalto','pending') | list %}
+
+{% if pending %}
+    {% for b in pending %}
+    <div class="order-card">
+
+        <div class="route-info">
+            <div class="point">📍 {{ b.pickup }}</div>
+            <div class="point">📍 {{ b.destination }}</div>
+
+            <div style="font-size:12px; color:gray;">
+                Crop: {{ b.crop }} | Weight: {{ b.weight }} kg
+            </div>
+        </div>
+
+        <div class="details">
+            <span>🚛 {{ b.vehicle }}</span>
+            <div class="price-tag">₹{{ b.price }}</div>
+
+            <a href="/accept/{{ b.id }}">
+                <button class="btn btn-accept">Accept</button>
+            </a>
+        </div>
+
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="empty">No pending shipments</div>
+{% endif %}
+
+
+<h2>✅ Accepted Shipments</h2>
+
+{% set accepted = bookings | selectattr('status','equalto','accepted') | list %}
+
+{% if accepted %}
+    {% for b in accepted %}
+    <div class="order-card accepted">
+
+        <div class="route-info">
+            <div class="point">📍 {{ b.pickup }}</div>
+            <div class="point">📍 {{ b.destination }}</div>
+
+            <div style="font-size:12px; color:gray;">
+                Crop: {{ b.crop }} | Weight: {{ b.weight }} kg
+            </div>
+        </div>
+
+        <div class="details">
+            <span>🚛 {{ b.vehicle }}</span>
+            <div class="price-tag">₹{{ b.price }}</div>
+
+            <a href="/track/{{ b.id }}">
+                <button class="btn btn-track">Track</button>
+            </a>
+        </div>
+
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="empty">No accepted shipments</div>
+{% endif %}
+
+</main>
+
+<!-- 🔔 AUTO REFRESH -->
+<script>
+setInterval(() => {
+    location.reload();
+}, 5000);
+</script>
+
+<!-- 📍 GPS TRACKING -->
+<script>
+if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(function(pos) {
+
+        let lat = pos.coords.latitude;
+        let lng = pos.coords.longitude;
+
+        {% for b in bookings if b.status == 'accepted' %}
+        fetch("/update-location/{{ b.id }}", {
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: "lat=" + lat + "&lng=" + lng
+        });
+        {% endfor %}
+
+    }, function(error) {
+        console.log("Location error:", error);
+    });
+}
+</script>
+
+</body>
+</html>

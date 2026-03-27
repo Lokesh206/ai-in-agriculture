@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Select Language</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    background: linear-gradient(rgba(0, 100, 0, 0.6), rgba(0,0,0,0.7)),
+    url('https://images.unsplash.com/photo-1500382017468-9049fed747ef');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+/* Glass container */
+.container {
+    backdrop-filter: blur(15px);
+    background: rgba(0,0,0,0.5);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(0,255,0,0.3);
+    width: 320px;
+}
+
+h2 {
+    margin-bottom: 25px;
+    color: #90ee90;
+}
+
+/* Buttons */
+button {
+    display: block;
+    width: 100%;
+    margin: 12px 0;
+    padding: 14px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #90ee90, #32cd32);
+    color: black;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #76d276, #2e8b57);
+}
+
+/* Footer */
+.footer {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>🌐 Select Language</h2>
+
+    <button onclick="setLang('en')">English</button>
+    <button onclick="setLang('kn')">ಕನ್ನಡ</button>
+    <button onclick="setLang('hi')">हिन्दी</button>
+
+    <div class="footer">
+        Krishi Sarathi © 2026
+    </div>
+</div>
+
+<script>
+// Save language and go to login (Flask route)
+function setLang(lang) {
+    localStorage.setItem("language", lang);
+
+    // IMPORTANT: Flask route (NOT login.html)
+    window.location.href = "/login";
+}
+</script>
+
+</body>
+</html>

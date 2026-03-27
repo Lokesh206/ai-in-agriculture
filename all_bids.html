@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>All Bids</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f5f7fa;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    margin: 15px auto;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+
+<body>
+
+<h2>💰 All Trader Bids</h2>
+
+{% if bids %}
+    {% for b in bids %}
+    <div class="card">
+        <p><strong>Trader:</strong> {{ b.name }}</p>
+        <p><strong>Crop:</strong> {{ b.crop }}</p>
+        <p><strong>Bid:</strong> ₹{{ b.price }}</p>
+    </div>
+    {% endfor %}
+{% else %}
+    <p style="text-align:center;">No bids yet</p>
+{% endif %}
+
+</body>
+</html>

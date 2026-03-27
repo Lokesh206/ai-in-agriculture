@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishi Sarathi - Select Role</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1600');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px 30px;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-box {
+            background-color: #1a56be;
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .welcome {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .role-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .role-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-farmer { background-color: #8CC63F; }
+        .btn-trader { background-color: #FBB03B; }
+        .btn-transport { background-color: #00AEEF; }
+        .btn-bids { background-color: #D414FF; }
+        .btn-logout { background-color: #FF5C5C; margin-top: 10px; }
+
+        .footer {
+            margin-top: 20px;
+            color: white;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header-box">
+        🌾 Select Your Role
+    </div>
+
+    <div class="welcome">
+        Welcome 👋 {{ name }}
+    </div>
+
+    <!-- ✅ FINAL FIXED ROUTES -->
+    <a href="{{ url_for('farmer') }}" class="role-btn btn-farmer">
+        🧑‍🌾 Farmer
+    </a>
+
+    <a href="{{ url_for('trade') }}" class="role-btn btn-trader">
+        🛒 Trader
+    </a>
+
+    <a href="{{ url_for('transport') }}" class="role-btn btn-transport">
+        🚚 Transporter
+    </a>
+
+    <a href="{{ url_for('all_bids') }}" class="role-btn btn-bids">
+        💰 View Bids
+    </a>
+
+    <a href="{{ url_for('logout') }}" class="role-btn btn-logout">
+        🚪 Logout
+    </a>
+
+    <div class="footer">
+        Krishi Sarathi &copy; 2026
+    </div>
+
+</div>
+
+</body>
+</html>

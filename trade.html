@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Trader Dashboard | Krishi Sarathi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f4f6f9;
+        }
+
+        /* NAV */
+        .header {
+            background: #2e7d32;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .title {
+            margin-bottom: 15px;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.01);
+        }
+
+        .card h3 {
+            color: #2e7d32;
+        }
+
+        .info {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #2e7d32;
+        }
+
+        .empty {
+            text-align: center;
+            color: gray;
+            margin-top: 40px;
+        }
+
+        .price {
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <div>🧑‍💼 Welcome, {{ name }}</div>
+
+    <div>
+        <a href="/all-bids">My Bids</a>
+        <a href="/select">Back</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h3 class="title">📦 Available Farmer Bookings</h3>
+
+    {% if data %}
+        {% for b in data %}
+
+        <div class="card">
+
+            <h3>🌾 {{ b.crop }}</h3>
+
+            <div class="info">📍 {{ b.pickup }} → {{ b.destination }}</div>
+            <div class="info">⚖ Weight: {{ b.weight }} kg</div>
+            <div class="info">🚛 Vehicle: {{ b.vehicle }}</div>
+            <div class="info price">Farmer Price: ₹{{ b.price }}</div>
+
+            <!-- BID FORM -->
+            <form action="/bid/{{ b.id }}" method="POST" onsubmit="return validateBid(this)">
+                <input type="number" name="price" placeholder="Enter your bid price" required min="1">
+                <button type="submit">💰 Place Bid</button>
+            </form>
+
+        </div>
+
+        {% endfor %}
+    {% else %}
+        <div class="empty">
+            <h3>No bookings available 😔</h3>
+            <p>Wait for farmers to post shipments.</p>
+        </div>
+    {% endif %}
+
+</div>
+
+<!-- 🔔 AUTO REFRESH -->
+<script>
+setInterval(() => {
+    location.reload();
+}, 5000);
+
+// VALIDATION
+function validateBid(form) {
+    let price = form.price.value;
+
+    if (price <= 0) {
+        alert("Enter valid bid amount");
+        return false;
+    }
+
+    return true;
+}
+</script>
+
+</body>
+
+</html>

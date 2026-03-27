@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Tracking (Free Map)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .info-box {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="info-box">
+    <b>📍 Pickup:</b> {{ booking.pickup }} <br>
+    <b>📍 Destination:</b> {{ booking.destination }}
+</div>
+
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+<script>
+
+// Start position
+let lat = {{ booking.lat }};
+let lng = {{ booking.lng }};
+
+// Create map
+let map = L.map('map').setView([lat, lng], 8);
+
+// Free map tiles (NO API KEY)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+
+// Truck marker
+let truck = L.marker([lat, lng]).addTo(map);
+
+// 🔥 LIVE TRACKING
+setInterval(() => {
+
+    fetch(window.location.pathname + "/data")
+    .then(res => res.json())
+    .then(data => {
+
+        let newLat = parseFloat(data.lat);
+        let newLng = parseFloat(data.lng);
+
+        truck.setLatLng([newLat, newLng]);
+        map.setView([newLat, newLng]);
+
+    });
+
+}, 3000);
+
+</script>
+
+</body>
+</html>
